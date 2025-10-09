@@ -122,5 +122,6 @@ jobs:
         with:
           push: true
           tags: monikakannoju/bankapp:latest
+          file: ./Dockerfile
      
 
