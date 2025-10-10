@@ -123,7 +123,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: monikakannoju/bankapp:latest
+          tags: monika57/bankapp:latest
           
      
 
