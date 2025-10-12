@@ -15,11 +15,12 @@
   </properties>
 
   <dependencies>
-    <!-- You can add dependencies here -->
+    <!-- Add dependencies here -->
   </dependencies>
 
   <build>
     <plugins>
+      <!-- Compiler plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -29,42 +30,35 @@
           <target>11</target>
         </configuration>
       </plugin>
+
+      <!-- Spring Boot plugin -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>3.2.2</version> <!-- match your Spring Boot version -->
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Jar plugin with main class -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>nic.goi.aarogyasetu.CoronaApplication</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
     </plugins>
-
-    <plugins>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>3.2.2</version> <!-- match your Spring Boot version -->
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>repackage</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-jar-plugin</artifactId>
-      <version>3.2.2</version>
-      <configuration>
-        <archive>
-          <manifest>
-            <mainClass>nic.goi.aarogyasetu.CoronaApplication</mainClass>
-          </manifest>
-        </archive>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
-
+  </build>
 
 </project>
-
-
-
-
