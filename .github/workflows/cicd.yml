@@ -137,8 +137,7 @@ jobs:
     steps:
       - name: Pull Docker image
         run: |
-          docker pull monikakannoju/bankapp:latest
-
+          docker pull monika57/bankapp:latest
       - name: Stop old container if exists
         run: |
           docker stop bankapp || true
@@ -146,4 +145,4 @@ jobs:
 
       - name: Run new container
         run: |
-          docker run -d -p 8080:8080 --name bankapp monikakannoju/bankapp:latest
+          docker run -d -p 8080:8080 --name bankapp monika57/bankapp:latest
