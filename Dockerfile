@@ -1,13 +1,14 @@
+# Use Java 17 JDK
 FROM eclipse-temurin:17-jdk-alpine
-    
+
+# Set working directory inside container
+WORKDIR /usr/src/app
+
+# Copy the JAR into the container
+COPY app/*.jar app.jar
+
+# Expose port your app runs on
 EXPOSE 8080
 
-RUN ls 
-
-ENV APP_HOME /usr/src/app
-
-COPY app/*.jar $APP_HOME/app.jar
-
-WORKDIR $APP_HOME
-
-CMD ["java", "-jar", "app.jar"]
+# Run the JAR
+ENTRYPOINT ["java", "-jar", "app.jar"]
