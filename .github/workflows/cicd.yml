@@ -146,3 +146,21 @@ jobs:
       - name: Run new container
         run: |
           docker run -d -p 8080:8080 --name bankapp monika57/bankapp:latest
+
+  deploy_to_vm:
+    runs-on: self-hosted
+    needs: build_docker_image_and_push  # or your previous job
+    steps:
+    - name: Copy JAR to VM
+      run: |
+        scp -o StrictHostKeyChecking=no \
+        /home/user_1/actions-runner/_work/github-actions-project/github-actions-project/target/app.jar \
+        user_1@135.235.195.123:/home/user_1/app.jar
+
+    - name: Run app on VM
+      run: |
+        ssh -o StrictHostKeyChecking=no user_1@135.235.195.123 << 'EOF'
+        cd /home/user_1
+        nohup java -jar app.jar > app.log 2>&1 &
+        EOF
+
