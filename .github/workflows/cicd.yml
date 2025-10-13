@@ -130,37 +130,27 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: monika57/bankapp:latest
-
+          
   deploy:
-    runs-on: self-hosted
-    needs: build_docker_image_and_push
-    steps:
-      - name: Pull Docker image
-        run: |
-          docker pull monika57/bankapp:latest
-      - name: Stop old container if exists
-        run: |
-          docker stop bankapp || true
-          docker rm bankapp || true
+   runs-on: self-hosted
+   needs: build_docker_image_and_push
+   steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Run new container
-        run: |
-          docker run -d -p 8080:8080 --name bankapp monika57/bankapp:latest
-
-  deploy_to_vm:
-    runs-on: self-hosted
-    needs: build_docker_image_and_push  # or your previous job
-    steps:
-    - name: Copy JAR to VM
+    - name: Copy JAR to deployment folder
       run: |
-        scp -o StrictHostKeyChecking=no \
-        /home/user_1/actions-runner/_work/github-actions-project/github-actions-project/target/app.jar \
-        user_1@135.235.195.123:/home/user_1/app.jar
+        mkdir -p /home/user_1/deploy
+        cp app/*.jar /home/user_1/deploy/app.jar
 
-    - name: Run app on VM
+    - name: Stop old container if exists
       run: |
-        ssh -o StrictHostKeyChecking=no user_1@135.235.195.123 << 'EOF'
-        cd /home/user_1
-        nohup java -jar app.jar > app.log 2>&1 &
-        EOF
+        docker stop bankapp || true
+        docker rm bankapp || true
 
+    - name: Run new Docker container
+      run: |
+        docker build -t bankapp /home/user_1/deploy
+        docker run -d -p 8080:8080 --name bankapp bankapp
+
+  
