@@ -139,10 +139,10 @@ jobs:
     needs: build_docker_image_and_push
     steps:
       - name: Create deployment folder on VM
-        run: mkdir -p /home/user_1/deploy
+        run: mkdir -p /home/user_1/var/www/deploy
 
       - name: Copy JAR to VM deploy folder
-        run: cp app/*.jar /home/user_1/deploy/app.jar
+        run: cp app/*.jar /home/user_1/var/www/deploy/app.jar
 
       - name: Stop old container if exists
         run: |
@@ -151,4 +151,4 @@ jobs:
 
       - name: Run new container
         run: |
-          docker run -d -p 8080:8080 --name bankapp -v /home/user_1/deploy/app.jar:/usr/src/app/app.jar monika57/bankapp:latest
+          docker run -d -p 8080:8080 --name bankapp -v /home/user_1/var/www/deploy/app.jar:/usr/src/app/app.jar monika57/bankapp:latest
